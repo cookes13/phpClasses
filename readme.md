@@ -24,15 +24,17 @@ This function retrieves records from a specified table in the database.
 
 - `$tableName` (string): The name of the table.
 - `$columns` (array): Optional. An array of column names to fetch. If not provided, all columns will be fetched.
-- `$conditions` (array): Optional. An array of conditions to filter the records. The array should be in the format: `column => value`. Multiple conditions can be specified by using the same column name with different values. You can also use the `!` symbol in front of a column name to indicate a not-equal condition.
+- `$conditions` (array): Optional. An array of conditions to filter the records. The array should be in the format: `column => value`. Multiple conditiions can be specified. To specify an OR statment on the same column create an array for the two values from the same column `"car_make" => array("BMW", "Audi")`.
 - `$orderBy` (array): Optional. An array of column names to sort the records. You can use the ! symbol in front of a column name to indicate descending order.
 
 #### Example usage:
 
 ```php
 $db = new Database(); //Only 1 required per php file
-
-$result = $db->fetch("cars", array("car_make", "car_model"), array("car_make" => array("BMW", "Audi")), array("car_make", "!car_model"));
+$columns = array("car_make", "car_model");
+$conditions = array("car_make" => array("BMW", "Audi"));
+$order = array("car_make", "!car_model");
+$result = $db->fetch("cars", $columns , $conditions, $order);
 foreach ($result as $row) {
     // Process each record
 }
