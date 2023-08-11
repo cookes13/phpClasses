@@ -1,9 +1,9 @@
 <?php
 class Database {
-    private $servername = "localhost";
-    private $username = "GlobalFinanceUser";
-    private $password = "QxxJuQLEW!Sa_@68";
-    private $database = "globalfinance";
+    private $servername = "{Server Address}";
+    private $username = "{Database User Username}";
+    private $password = "{Database User Password}";
+    private $database = "{Database Name}";
     private $pdo;
     private $lastQuery;
     private $error;
@@ -160,36 +160,5 @@ class Database {
         return $this->lastQuery;
     }
 }
-
-
-// Examples:
-//     $db = new Database();
-//
-//     // Fetch example
-//                             (table name), (columns to fetch), (conditions)
-//          $users = $db->fetch("users", array('username', 'email'), array('id' => 1));
-//          foreach ($users as $user) {
-//              echo $user['username'] . "<br>";
-//          }
-//
-//     // Insert example
-//          $data = array(
-//              (Column name) => (Value)
-//              'username' => 'john',
-//              'password' => 'password123',
-//              'email' => 'john@example.com'
-//          );
-//                                   (table name), (data array)
-//          $insertedId = $db->insert("users", $data);
-//          echo "Inserted ID: " . $insertedId;
-//     
-//     // Update example
-//          $data = array(
-//              (Column name) => (Value)
-//              'password' => 'newpassword123'
-//          );
-//                                   (table name), (data array), (conditions)
-//          $updatedRows = $db->update("users", $data, array('id' => 1));
-//          echo "Updated rows: " . $updatedRows;
 
 ?>
