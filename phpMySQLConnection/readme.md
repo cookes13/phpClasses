@@ -38,7 +38,7 @@ Example usage:
 ```php
 $result = $db->fetch("cars", array("car_make", "car_model"), array("car_make" => array("BMW", "Audi")), array("car_make", "!car_model"));
 foreach ($result as $row) {
-    Process each record
+    //Process each record
 }
 ```
 
