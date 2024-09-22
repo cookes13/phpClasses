@@ -7,6 +7,7 @@ class Database {
     private $pdo;
     private $lastQuery;
     private $error;
+    private $lastInsertId;  // Add a property to store the last inserted ID
 
     public function __construct() {
         try {
@@ -17,7 +18,7 @@ class Database {
             die("Connection failed: " . $e->getMessage());
         }
     }
-    
+
     public function __destruct() {
         // Close the database connection
         $this->pdo = null;
@@ -31,7 +32,7 @@ class Database {
             } else {
                 $columnString = implode(", ", $columns);
             }
-    
+
             $query = "SELECT $columnString FROM $tableName";
             $values = array();
             if (!empty($conditions)) {
@@ -86,7 +87,7 @@ class Database {
                     $query .= "$column $direction";
                 }
             }
-    
+
             // Prepare and execute the query, returning the fetched results
             $stmt = $this->pdo->prepare($query);
             $stmt->execute($values);
@@ -96,11 +97,6 @@ class Database {
             die("Query failed: " . $this->error);
         }
     }
-    
-    
-    
-    
-    
 
     public function insert($tableName, $data) {
         try {
@@ -109,11 +105,12 @@ class Database {
             $placeholders = implode(", ", array_fill(0, count($data), "?"));
             $values = array_values($data);
             $query = "INSERT INTO $tableName ($columns) VALUES ($placeholders)";
-            // Prepare and execute the query, returning the last inserted ID
+            // Prepare and execute the query
             $stmt = $this->pdo->prepare($query);
             $stmt->execute($values);
             $this->lastQuery = $query;
-            return $this->pdo->lastInsertId();
+            $this->lastInsertId = $this->pdo->lastInsertId();  // Store the last inserted ID
+            return $this->lastInsertId;  // Return it here, but also store it for later retrieval
         } catch (PDOException $e) {
             $this->error = $e->getMessage();
             die("Insert failed: " . $this->error);
@@ -158,6 +155,11 @@ class Database {
 
     public function getLastQuery() {
         return $this->lastQuery;
+    }
+
+    // Add this function to return the last inserted ID
+    public function getLastInsertedId() {
+        return $this->lastInsertId;
     }
 }
 
